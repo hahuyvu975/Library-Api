@@ -11,14 +11,17 @@ export enum Category {
     timestamps: true
 })
 export class Book {
-    @Prop()
+    @Prop({ minlength: [5, 'Title must be at least 5 characters'] })
     title: string;
 
     @Prop()
     description: string;
 
     @Prop()
-    price: string;
+    author: string;
+
+    @Prop()
+    price: number;
 
     @Prop()
     category: Category;
