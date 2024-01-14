@@ -21,11 +21,12 @@ export class BookService {
     }
 
     async findById(id: string): Promise<Book> {
-        const book = await this.bookModel.findById(id);
-        if (!book) {
+        try {
+            const book = await this.bookModel.findById(id);
+            return book;
+        } catch (error) {
             throw new NotFoundException('Book not found!')
         }
-        return book;
     }
 
     async updateById(id: string, book: Book): Promise<Book> {
@@ -37,5 +38,13 @@ export class BookService {
                 runValidators: true,
             }
         );
+    }
+    
+    async deleteById(id: string) {
+        try {
+            return await this.bookModel.findByIdAndDelete({ _id: id });
+        } catch (error) {
+            throw new NotFoundException('Not found book')
+        }  
     }
 }
