@@ -1,16 +1,17 @@
 import { UpdateBookDTO } from './dto/update-book.dto';
 import { CreateBookDTO } from './dto/create-book.dto';
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { BookService } from './book.service';
 import { Book } from './schemas/book.schemas';
+import { Query as ExpressQuery } from 'express-serve-static-core';
 
 @Controller('book')
 export class BookController {
     constructor(private bookService: BookService) { }
 
     @Get()
-    async getAllBooks(): Promise<Book[]> {
-        return this.bookService.findAll();
+    async getAllBooks(@Query() query: ExpressQuery): Promise<Book[]> {
+        return this.bookService.findAll(query);
     }
 
     @Post()
